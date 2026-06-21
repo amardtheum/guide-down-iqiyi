@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>爱奇艺体育 · 卡片式介绍页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #f8f9fc;
+            color: #1e293b;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.7;
+            padding: 2rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .page {
+            max-width: 720px;
+            width: 100%;
+        }
+
+        /* 主视觉 card hero */
+        .hero-card {
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
+            padding: 2.25rem 2rem 2rem;
+            margin-bottom: 2rem;
+            transition: box-shadow 0.2s;
+        }
+        .hero-card h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+            margin-bottom: 0.75rem;
+        }
+        .hero-card .subhead {
+            color: #64748b;
+            font-size: 1.05rem;
+            font-weight: 400;
+            border-left: 3px solid #2563eb;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .hero-card p {
+            color: #334155;
+            font-size: 0.98rem;
+            margin-bottom: 1rem;
+        }
+        .hero-card .footnote {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        /* 卡片网格 */
+        .card-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.75rem 1.75rem 1.5rem;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02), 0 1px 4px rgba(0, 0, 0, 0.02);
+            transition: box-shadow 0.15s, transform 0.15s;
+        }
+        .card:hover {
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .card h2 small {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #94a3b8;
+            background: #f1f5f9;
+            padding: 0.15rem 0.6rem;
+            border-radius: 40px;
+        }
+        .card p, .card li {
+            color: #334155;
+            font-size: 0.95rem;
+        }
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .card ul li {
+            padding: 0.3rem 0 0.3rem 1rem;
+            position: relative;
+        }
+        .card ul li::before {
+            content: "·";
+            position: absolute;
+            left: 0;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .card .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 0.7rem;
+            margin-top: 0.8rem;
+        }
+        .card .tag-list span {
+            background: #f1f5f9;
+            padding: 0.25rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            color: #1e293b;
+        }
+
+        /* 自然链接段落卡片 (内容段落) */
+        .link-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.6rem 1.75rem 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
+            line-height: 1.8;
+        }
+        .link-card p {
+            margin-bottom: 0.8rem;
+        }
+        .link-card p:last-child {
+            margin-bottom: 0;
+        }
+        .link-card a {
+            color: #2563eb;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(37, 99, 235, 0.25);
+            font-weight: 450;
+        }
+        .link-card a:hover {
+            border-bottom-color: #1d4ed8;
+            color: #1d4ed8;
+        }
+
+        /* FAQ 摘要卡片 */
+        .faq-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.5rem 1.75rem 1.4rem;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
+            margin-bottom: 1.5rem;
+        }
+        .faq-card h3 {
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+        .faq-card .qa-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eef2f6;
+        }
+        .faq-card .qa-item:last-child {
+            border-bottom: none;
+        }
+        .faq-card .q {
+            font-weight: 450;
+            margin-bottom: 0.2rem;
+            color: #0f172a;
+        }
+        .faq-card .a {
+            color: #475569;
+            font-size: 0.9rem;
+            padding-left: 0.5rem;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            border-top: 1px solid #e9edf2;
+            padding-top: 1.5rem;
+            margin-top: 0.8rem;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 500px) {
+            body {
+                padding: 1.25rem 1rem;
+            }
+            .hero-card {
+                padding: 1.6rem 1.25rem;
+            }
+            .hero-card h1 {
+                font-size: 1.7rem;
+            }
+            .card, .link-card, .faq-card {
+                padding: 1.25rem 1.2rem;
+            }
+            .card-grid {
+                gap: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- 主视觉 Hero 卡片 -->
+    <div class="hero-card">
+        <h1>赛事在指尖</h1>
+        <div class="subhead">爱奇艺体育 · 不止是直播</div>
+        <p>
+            从足球到网球，从搏击到冰雪，竞技的魅力在画面中流动。
+            这里凝聚着职业赛场的紧张、运动员的专注，以及观众席上的欢呼。
+        </p>
+        <p>
+            一个可靠的体育内容平台，往往比想象中承载更多——它可能是清晨的欧冠集锦，
+            也可能是深夜的格斗之夜。围绕赛事构建的资讯、回放、数据，渐渐成为日常的一部分。
+        </p>
+        <div class="footnote">—— 观察体育的另一种方式</div>
+    </div>
+
+    <!-- 用途卡片 + 适合人群，并排改为上下更清晰，窄屏友好 -->
+    <div class="card-grid">
+        <!-- 用途卡片 -->
+        <div class="card">
+            <h2>常见用途 <small>日常场景</small></h2>
+            <p>无论你是追着联赛跑，还是偶尔打开一场焦点战，这里覆盖了多种观赛需求：</p>
+            <ul>
+                <li>热门赛事直播与回放（中超、欧冠、网球大满贯、UFC 等）</li>
+                <li>赛后集锦、战术分析、数据统计</li>
+                <li>专题报道与赛事前瞻</li>
+                <li>多视角切换、解说选择（部分场次）</li>
+            </ul>
+            <div class="tag-list">
+                <span>⚽ 足球</span>
+                <span>🎾 网球</span>
+                <span>🥊 搏击</span>
+                <span>🏀 篮球</span>
+                <span>⛷️ 冰雪</span>
+            </div>
+        </div>
+
+        <!-- 适合人群卡片 -->
+        <div class="card">
+            <h2>适合人群 <small>谁在用</small></h2>
+            <ul>
+                <li><strong>深度球迷</strong> —— 不想错过每一轮联赛的关键对决</li>
+                <li><strong>泛体育爱好者</strong> —— 偶尔关注大赛、热点赛事</li>
+                <li><strong>赛事复盘党</strong> —— 习惯赛后看录像、听解说分析</li>
+                <li><strong>新晋观众</strong> —— 刚接触某项运动，想从头了解规则与经典比赛</li>
+                <li><strong>多设备用户</strong> —— 电视、手机、平板之间无缝切换</li>
+            </ul>
+            <p style="margin-top:0.6rem; font-size:0.9rem; color:#475569;">
+                每个人进入体育的方式不同，但好的内容能让人停留更久。
+            </p>
+        </div>
+    </div>
+
+    <!-- 自然链接段落卡片（将链接嵌入句子） -->
+    <div class="link-card">
+        <p>
+            如果你已经习惯用手机或电脑看比赛，或许对 <a href="https://down-iqiyi.com">爱奇艺体育</a> 不会感到陌生。
+            从平台整合的内容来看，它试图把职业赛事、自制节目和社区讨论放在一起，形成一种持续的陪伴。
+            有人为了凌晨的德比定闹钟，有人在地铁上补完前一天的集锦——这些细小的习惯，慢慢构成了体育生活的一部分。
+        </p>
+        <p>
+            平台的价值往往不在于单一赛事，而在于能不能长期稳定地提供你想要的内容。
+            如果你正在寻找一个覆盖多个项目、界面相对简洁的观赛渠道，不妨看看 <a href="https://down-iqiyi.com">爱奇艺体育</a> 里是否有你关注的联赛或专项。
+        </p>
+        <p style="color:#64748b; font-size:0.9rem;">
+            * 以上内容仅为个人视角的整理，具体赛事版权及播放安排以平台实际为准。
+        </p>
+    </div>
+
+    <!-- FAQ 摘要卡片 (内容真实克制) -->
+    <div class="faq-card">
+        <h3>常见疑问摘要</h3>
+        <div class="qa-item">
+            <div class="q">需要付费才能看所有比赛吗？</div>
+            <div class="a">部分热门赛事、会员专属场次需订阅，免费场次也能覆盖不少日常内容，具体以页面说明为准。</div>
+        </div>
+        <div class="qa-item">
+            <div class="q">可以在电视上观看吗？</div>
+            <div class="a">支持投屏，部分智能电视可通过应用或浏览器访问，但体验因设备而异。</div>
+        </div>
+        <div class="qa-item">
+            <div class="q">回放保留多久？</div>
+            <div class="a">通常赛季内的重要比赛回放会保留较长时间，个别场次可能因版权调整。</div>
+        </div>
+        <div class="qa-item">
+            <div class="q">是否支持下载到本地？</div>
+            <div class="a">移动端 app 部分内容提供缓存功能，具体视节目类型和会员等级而定。</div>
+        </div>
+    </div>
+
+    <!-- 极简 footer -->
+    <div class="footer-note">
+        <span>信息页面 · 仅供介绍参考</span>
+    </div>
+
+</div>
+</body>
+</html>
